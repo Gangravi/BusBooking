@@ -14,7 +14,7 @@ public class BusDetails {
 	private Long busId;
 	private String busNumber;
 	private String busType;
-	private String baseFare;
+	private Double baseFare;
 	private int noOfSeats;	
 	
 	
@@ -24,7 +24,7 @@ public class BusDetails {
 	}
 	
 	
-	public BusDetails(Long busId, String busNumber, String busType, String baseFare, int noOfSeats) {
+	public BusDetails(Long busId, String busNumber, String busType, Double baseFare, int noOfSeats) {
 		super();
 		this.busId = busId;
 		this.busNumber = busNumber;
@@ -52,10 +52,10 @@ public class BusDetails {
 	public void setBusType(String busType) {
 		this.busType = busType;
 	}
-	public String getBaseFare() {
+	public Double getBaseFare() {
 		return baseFare;
 	}
-	public void setBaseFare(String baseFare) {
+	public void setBaseFare(Double baseFare) {
 		this.baseFare = baseFare;
 	}
 	public int getNoOfSeats() {

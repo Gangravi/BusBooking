@@ -1,5 +1,6 @@
 package com.coforge.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,12 +52,22 @@ public class BookingController {
     		@PathVariable(value = "routeId") Long routeId,
     		@PathVariable(value = "passangerId") Long passangerId) {
 		Optional<BusRoute> findRouteById = busRouteRepository.findById(routeId);
+		
 		bookingDetails.setBusId(findRouteById.get().getBusId());
 		bookingDetails.setRouteId(findRouteById.get());
-//		Optional<Payment> findPaymentById = paymentRepository.findById(transactionId);
-//		bookingDetails.setPayment(findPaymentById.get());
+		
+		Double baseFare = findRouteById.get().getBusId().getBaseFare();
+		Double distance = findRouteById.get().getDistance();
+		Double totalFare = baseFare*distance;
+		bookingDetails.setTotalFare(totalFare);
+		
+		LocalDateTime localDate = LocalDateTime.now();
+		bookingDetails.setBookingDateTime(localDate);
+		
 		Optional<PassangerDetails> findPassangerById = passangerDetailsRepository.findById(passangerId);
 		bookingDetails.setPassangerDetails(findPassangerById.get());
+		
+		
         return bookingRepository.save(bookingDetails);
     }
 	@PostMapping("/bookings/{}")

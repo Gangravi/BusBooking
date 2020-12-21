@@ -41,7 +41,9 @@ public class PaymentController {
     		@PathVariable(value = "bookingId") Long bookingId) {
         Optional<Booking> findById = bookingRepository.findById(bookingId);
         payment.setBookingId(findById.get());
-        //findById.get().setPayment(payment);
+      
+        findById.get().setPayment(payment);
+        findById.get().setPaymentStatus("Done");
 		return paymentRepository.save(payment);
     }
 	
