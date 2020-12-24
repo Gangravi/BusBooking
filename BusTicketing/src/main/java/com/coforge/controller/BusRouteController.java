@@ -5,12 +5,14 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.coforge.model.BusDetails;
@@ -21,6 +23,7 @@ import com.coforge.repository.BusRouteRepository;
 import com.coforge.repository.DriverDetailsRepository;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class BusRouteController {
 
 	@Autowired
@@ -35,6 +38,12 @@ public class BusRouteController {
     	System.out.println(busRouteRepository.findAll());
         return (List<BusRoute>) busRouteRepository.findAll();
     }
+	@GetMapping("/searchbus")
+	public List<BusRoute> getSearchRoute(@RequestParam("from") String from,
+			@RequestParam("to") String to){
+		
+		return (List<BusRoute>) busRouteRepository.findBySourceAndDestination(from, to);	
+	}
 	
 	@GetMapping("/busroute/{id}")
     public ResponseEntity<BusRoute> getBusRouteById(@PathVariable(value = "id") Long id) {
@@ -89,4 +98,6 @@ public class BusRouteController {
 		busRouteRepository.deleteById(id);;
 		
 	}
+	
+	
 }
