@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.coforge.model.Booking;
@@ -25,7 +27,7 @@ import com.coforge.repository.PassangerDetailsRepository;
 import com.coforge.repository.PaymentRepository;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins="*", allowedHeaders = "*")
 public class BookingController {
 
 	@Autowired
@@ -50,32 +52,36 @@ public class BookingController {
     }
 	
 	@PostMapping("/bookings/{routeId}/{passangerId}")
-    public Booking insertBus(@RequestBody Booking bookingDetails,
-    		@PathVariable(value = "routeId") Long routeId,
-    		@PathVariable(value = "passangerId") Long passangerId) {
+    public Booking insertBus( 
+    		@PathVariable(value ="routeId") Long routeId,
+			@PathVariable(value ="passangerId") Long passangerId,
+			@RequestBody Booking booking
+			 ) {
+
+//		System.out.println("bookingDetails"+routeId);
+//		System.out.println("bookingDetails"+passangerId);
+		System.out.println("Hello ");
+//		
+//		System.out.println("bookingDetails"+booking);
 		Optional<BusRoute> findRouteById = busRouteRepository.findById(routeId);
 		
-		bookingDetails.setBusId(findRouteById.get().getBusId());
-		bookingDetails.setRouteId(findRouteById.get());
+		booking.setBusId(findRouteById.get().getBusId());
+		booking.setRouteId(findRouteById.get());
 		
 		Double baseFare = findRouteById.get().getBusId().getBaseFare();
 		Double distance = findRouteById.get().getDistance();
 		Double totalFare = baseFare*distance;
-		bookingDetails.setTotalFare(totalFare);
+		booking.setTotalFare(totalFare);
 		
 		LocalDateTime localDate = LocalDateTime.now();
-		bookingDetails.setBookingDateTime(localDate);
+		booking.setBookingDateTime(localDate);
 		
 		Optional<PassangerDetails> findPassangerById = passangerDetailsRepository.findById(passangerId);
-		bookingDetails.setPassangerDetails(findPassangerById.get());
+		booking.setPassangerDetails(findPassangerById.get());
 		
 		
-        return bookingRepository.save(bookingDetails);
+        return bookingRepository.save(booking);
     }
-	@PostMapping("/bookings/{}")
-	public Booking completePayment() {
-		return null;
-		
-	}
+	
 	
 }
