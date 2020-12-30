@@ -31,18 +31,18 @@ public class PassangerDetailsController {
     }
 	
 	@GetMapping("/passanger/{id}")
-    public ResponseEntity<PassangerDetails> getDriverById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<PassangerDetails> getPassangerById(@PathVariable(value = "id") Long id) {
 		Optional<PassangerDetails> passangerDetails = passangerDetailsRepository.findById(id);
         return ResponseEntity.ok().body(passangerDetails.get());
     }
 	
 	@PostMapping("/passangers")
-    public PassangerDetails insertDriver(@RequestBody PassangerDetails passangerDetails) {
+    public PassangerDetails insertPassanger(@RequestBody PassangerDetails passangerDetails) {
         return passangerDetailsRepository.save(passangerDetails);
     }
 	
 	@PutMapping("/passanger/{id}")
-	public ResponseEntity<PassangerDetails> updateDriverById(@PathVariable(value = "id") Long id,
+	public ResponseEntity<PassangerDetails> updatePassangerById(@PathVariable(value = "id") Long id,
 			@RequestBody PassangerDetails passangerDetails){
 		
 		Optional<PassangerDetails> findById = passangerDetailsRepository.findById(id);

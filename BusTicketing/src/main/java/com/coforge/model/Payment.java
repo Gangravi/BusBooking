@@ -4,7 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Payment {
@@ -14,6 +17,8 @@ public class Payment {
 	private Long transactionId;
 	private String Mode_Of_payment;
 	@OneToOne
+	@JoinColumn(name="bookingId")
+	@JsonIgnore
 	private Booking bookingId;
 	private Double amount;
 	public Payment() {

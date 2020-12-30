@@ -2,13 +2,22 @@ package com.coforge.model;
 
 import java.util.Date;
 
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+
+
 @Entity
 public class PassangerDetails {
+	
+	
+	
+	private String password ;
+	
+	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,10 +34,12 @@ public class PassangerDetails {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public PassangerDetails(Long passangerId, String passangerName, Date passangerDob, String passangerGender,
+	public PassangerDetails(Long passangerId, String password,String passangerName, Date passangerDob, String passangerGender,
 			String passangerPhone, String passangerAddress, String passangerEmail, String passangerIdProofType,
 			String passangerIdProofNumber) {
 		super();
+		
+		this.password = password;
 		this.passangerId = passangerId;
 		this.passangerName = passangerName;
 		this.passangerDob = passangerDob;
@@ -101,5 +112,18 @@ public class PassangerDetails {
 				+ ", passangerIdProofType=" + passangerIdProofType + ", passangerIdProofNumber="
 				+ passangerIdProofNumber + "]";
 	}
+	
+	
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	
+	
 	
 }

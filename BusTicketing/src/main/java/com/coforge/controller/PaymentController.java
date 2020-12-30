@@ -39,14 +39,14 @@ public class PaymentController {
     }
 	
 	@PostMapping("/payments/{bookingId}")
-    public Payment insertPayment(@RequestBody Payment payment,
+    public ResponseEntity<Payment> insertPayment(@RequestBody Payment payment,
     		@PathVariable(value = "bookingId") Long bookingId) {
         Optional<Booking> findById = bookingRepository.findById(bookingId);
         payment.setBookingId(findById.get());
         payment.setAmount(findById.get().getTotalFare());
         findById.get().setPayment(payment);
         findById.get().setPaymentStatus("Done");
-		return paymentRepository.save(payment);
+		return ResponseEntity.ok().body(paymentRepository.save(payment));
     }
 	
 	
